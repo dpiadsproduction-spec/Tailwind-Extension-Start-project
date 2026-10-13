@@ -229,11 +229,14 @@
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./"
+    "watch": "tsc -watch -p ./",
+    "test": "npm run compile && node --test \"out/**/*.test.js\"",
+    "package": "vsce package"
   },
   "devDependencies": {
     "@types/node": "^18.x",
     "@types/vscode": "^1.74.0",
+    "@vscode/vsce": "^2.32.0",
     "typescript": "^5.3.3"
   }
 }
