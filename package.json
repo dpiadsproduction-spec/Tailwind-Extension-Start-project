@@ -1,0 +1,239 @@
+{
+  "name": "tailwind-starter",
+  "displayName": "Tailwind Starter",
+  "description": "Create and setup Tailwind CSS projects with a visual interface",
+  "version": "0.0.16",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "workspaceContains:**/tailwind.config.js",
+    "onView:cleanFilesView",
+    "onCommand:tailwind-starter.createProject",
+    "onCommand:tailwind-starter.createPage",
+    "onCommand:tailwind-starter.checkProject",
+    "onCommand:tailwind-starter.rebuildNow",
+    "onCommand:tailwind-starter.refreshExplorer",
+    "onCommand:tailwind-starter.newFile",
+    "onCommand:tailwind-starter.newFolder",
+    "onCommand:tailwind-starter.renameEntry",
+    "onCommand:tailwind-starter.deleteEntry",
+    "onCommand:tailwind-starter.linkToPage"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "tailwindProjectExplorer",
+          "title": "Clean Workspace",
+          "icon": "resources/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "tailwindProjectExplorer": [
+        {
+          "id": "cleanFilesView",
+          "name": "Project Files"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "cleanFilesView",
+        "contents": "Open a folder to browse a clean, filtered project tree.\n[Open Folder](command:vscode.openFolder)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "tailwind-starter.newFile",
+          "when": "view == cleanFilesView",
+          "group": "navigation@1"
+        },
+        {
+          "command": "tailwind-starter.newFolder",
+          "when": "view == cleanFilesView",
+          "group": "navigation@2"
+        },
+        {
+          "command": "tailwind-starter.refreshExplorer",
+          "when": "view == cleanFilesView",
+          "group": "navigation@3"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "tailwind-starter.newFile",
+          "when": "view == cleanFilesView && viewItem == folder",
+          "group": "1_new@1"
+        },
+        {
+          "command": "tailwind-starter.newFolder",
+          "when": "view == cleanFilesView && viewItem == folder",
+          "group": "1_new@2"
+        },
+        {
+          "command": "tailwind-starter.createPage",
+          "when": "view == cleanFilesView && viewItem == folder",
+          "group": "1_new@3"
+        },
+        {
+          "command": "tailwind-starter.renameEntry",
+          "when": "view == cleanFilesView && viewItem =~ /^(file|folder)$/",
+          "group": "2_edit"
+        },
+        {
+          "command": "tailwind-starter.deleteEntry",
+          "when": "view == cleanFilesView && viewItem =~ /^(file|folder)$/",
+          "group": "9_delete"
+        },
+        {
+          "command": "tailwind-starter.linkToPage",
+          "when": "view == cleanFilesView && resourceExt =~ /^(css|js)$/",
+          "group": "1_new@4"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "tailwind-starter.createProject",
+        "key": "ctrl+alt+t",
+        "mac": "cmd+alt+t"
+      },
+      {
+        "command": "tailwind-starter.createPage",
+        "key": "ctrl+alt+p",
+        "mac": "cmd+alt+p"
+      },
+      {
+        "command": "tailwind-starter.checkProject",
+        "key": "ctrl+alt+f",
+        "mac": "cmd+alt+f"
+      },
+      {
+        "command": "tailwind-starter.rebuildNow",
+        "key": "ctrl+alt+b",
+        "mac": "cmd+alt+b"
+      },
+      {
+        "command": "tailwind-starter.refreshExplorer",
+        "key": "ctrl+alt+r",
+        "mac": "cmd+alt+r"
+      },
+      {
+        "command": "tailwind-starter.deleteEntry",
+        "key": "delete",
+        "when": "view == cleanFilesView && viewItem =~ /^(file|folder)$/"
+      },
+      {
+        "command": "tailwind-starter.renameEntry",
+        "key": "f2",
+        "when": "view == cleanFilesView && viewItem =~ /^(file|folder)$/"
+      }
+    ],
+    "commands": [
+      {
+        "command": "tailwind-starter.createProject",
+        "title": "Tailwind Starter: Create Project",
+        "category": "Tailwind"
+      },
+      {
+        "command": "tailwind-starter.createPage",
+        "title": "Tailwind Starter: Create Page",
+        "category": "Tailwind"
+      },
+      {
+        "command": "tailwind-starter.checkProject",
+        "title": "Tailwind Starter: Check & Fix Project",
+        "category": "Tailwind"
+      },
+      {
+        "command": "tailwind-starter.rebuildNow",
+        "title": "Tailwind Starter: Rebuild Now",
+        "category": "Tailwind"
+      },
+      {
+        "command": "tailwind-starter.refreshExplorer",
+        "title": "Clean Explorer: Refresh",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "tailwind-starter.newFile",
+        "title": "Clean Explorer: New File",
+        "icon": "$(new-file)"
+      },
+      {
+        "command": "tailwind-starter.newFolder",
+        "title": "Clean Explorer: New Folder",
+        "icon": "$(new-folder)"
+      },
+      {
+        "command": "tailwind-starter.renameEntry",
+        "title": "Clean Explorer: Rename"
+      },
+      {
+        "command": "tailwind-starter.deleteEntry",
+        "title": "Clean Explorer: Delete"
+      },
+      {
+        "command": "tailwind-starter.linkToPage",
+        "title": "Tailwind Starter: Link File to Page",
+        "category": "Tailwind"
+      }
+    ],
+    "configuration": {
+      "title": "Tailwind Starter",
+      "properties": {
+        "tailwindStarter.autoBuild": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically rebuild style.css when HTML/CSS/JS files are saved."
+        },
+        "tailwindStarter.autoFix": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically link new HTML pages to style.css and import new Tailwind CSS files into input.css."
+        },
+        "tailwindStarter.explorerExclude": {
+          "type": "array",
+          "default": ["node_modules", ".git", ".vscode", "package-lock.json", ".DS_Store", "Thumbs.db"],
+          "description": "File and folder names hidden from the Clean Workspace explorer."
+        },
+        "tailwindStarter.targets": {
+          "type": "array",
+          "default": [],
+          "description": "Extra Tailwind build targets. The main target input.css -> style.css always runs.",
+          "items": {
+            "type": "object",
+            "required": ["input", "output"],
+            "properties": {
+              "input": {
+                "type": "string",
+                "description": "Input CSS path relative to the workspace root."
+              },
+              "output": {
+                "type": "string",
+                "description": "Output CSS path relative to the workspace root."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "^18.x",
+    "@types/vscode": "^1.74.0",
+    "typescript": "^5.3.3"
+  }
+}
