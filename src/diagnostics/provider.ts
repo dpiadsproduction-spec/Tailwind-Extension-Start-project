@@ -119,6 +119,10 @@ export function registerLiveDiagnostics(context: vscode.ExtensionContext): void 
     if (!isCssDocument(doc)) {
       return;
     }
+    if (!vscode.workspace.getConfiguration('tailwindStarter').get<boolean>('liveDiagnostics', true)) {
+      collection.delete(doc.uri);
+      return;
+    }
     const folder = vscode.workspace.getWorkspaceFolder(doc.uri);
     if (!folder) {
       collection.delete(doc.uri);
@@ -189,6 +193,13 @@ export function registerLiveDiagnostics(context: vscode.ExtensionContext): void 
     vscode.workspace.onDidChangeTextDocument((e) => schedule(e.document)),
     vscode.workspace.onDidOpenTextDocument((doc) => schedule(doc)),
     vscode.workspace.onDidCloseTextDocument((doc) => collection.delete(doc.uri)),
+    vscode.workspace.onDidChangeConfiguration((e) => {
+      if (e.affectsConfiguration('tailwindStarter.liveDiagnostics')) {
+        for (const doc of vscode.workspace.textDocuments) {
+          schedule(doc);
+        }
+      }
+    }),
     vscode.window.onDidChangeActiveTextEditor((editor) => {
       if (editor) {
         schedule(editor.document);

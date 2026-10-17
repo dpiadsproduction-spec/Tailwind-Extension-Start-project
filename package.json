@@ -2,7 +2,12 @@
   "name": "tailwind-starter",
   "displayName": "Tailwind Starter",
   "description": "Create and setup Tailwind CSS projects with a visual interface",
-  "version": "0.0.16",
+  "publisher": "dpiadsproduction",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dpiadsproduction-spec/Tailwind-Extension-Start-project"
+  },
   "engines": {
     "vscode": "^1.74.0"
   },
@@ -11,17 +16,22 @@
   ],
   "activationEvents": [
     "workspaceContains:**/tailwind.config.js",
+    "workspaceContains:**/input.css",
     "onView:cleanFilesView",
     "onCommand:tailwind-starter.createProject",
     "onCommand:tailwind-starter.createPage",
     "onCommand:tailwind-starter.checkProject",
     "onCommand:tailwind-starter.rebuildNow",
+    "onCommand:tailwind-starter.startWatch",
+    "onCommand:tailwind-starter.stopWatch",
+    "onCommand:tailwind-starter.upgradeToV4",
     "onCommand:tailwind-starter.refreshExplorer",
     "onCommand:tailwind-starter.newFile",
     "onCommand:tailwind-starter.newFolder",
     "onCommand:tailwind-starter.renameEntry",
     "onCommand:tailwind-starter.deleteEntry",
-    "onCommand:tailwind-starter.linkToPage"
+    "onCommand:tailwind-starter.linkToPage",
+    "onCommand:tailwind-starter.unlinkFromPage"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -96,6 +106,11 @@
           "command": "tailwind-starter.linkToPage",
           "when": "view == cleanFilesView && resourceExt =~ /^(css|js)$/",
           "group": "1_new@4"
+        },
+        {
+          "command": "tailwind-starter.unlinkFromPage",
+          "when": "view == cleanFilesView && resourceExt =~ /^(css|js)$/",
+          "group": "1_new@5"
         }
       ]
     },
@@ -184,6 +199,26 @@
         "command": "tailwind-starter.linkToPage",
         "title": "Tailwind Starter: Link File to Page",
         "category": "Tailwind"
+      },
+      {
+        "command": "tailwind-starter.unlinkFromPage",
+        "title": "Tailwind Starter: Unlink File from Page",
+        "category": "Tailwind"
+      },
+      {
+        "command": "tailwind-starter.startWatch",
+        "title": "Tailwind Starter: Start Watch",
+        "category": "Tailwind"
+      },
+      {
+        "command": "tailwind-starter.stopWatch",
+        "title": "Tailwind Starter: Stop Watch",
+        "category": "Tailwind"
+      },
+      {
+        "command": "tailwind-starter.upgradeToV4",
+        "title": "Tailwind Starter: Upgrade to Tailwind v4",
+        "category": "Tailwind"
       }
     ],
     "configuration": {
@@ -198,6 +233,11 @@
           "type": "boolean",
           "default": true,
           "description": "Automatically link new HTML pages to style.css and import new Tailwind CSS files into input.css."
+        },
+        "tailwindStarter.liveDiagnostics": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show live Tailwind diagnostics while typing (version mismatch, @apply page-scoped, missing @reference in v4)."
         },
         "tailwindStarter.explorerExclude": {
           "type": "array",

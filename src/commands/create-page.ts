@@ -7,7 +7,7 @@ import { PAGE_TEMPLATES, composePage, type PageTemplate } from '../tailwind/page
 import { ownInputCssTemplate, tailwindPageCssTemplate, plainPageCssTemplate, pageJsTemplate } from '../tailwind/templates';
 import { ensureInputCss, ensurePageImport, removePageImport } from '../tailwind/imports-vscode';
 import { createAdapter } from '../tailwind/adapter';
-import { detectProjectMajor, isTailwindInstalled } from '../tailwind/detect-vscode';
+import { detectProjectMajor } from '../tailwind/detect-vscode';
 import { addTargetSetting } from './project-files';
 import { ensureTailwindInstalled } from './install';
 import { buildNow } from '../tailwind/build';

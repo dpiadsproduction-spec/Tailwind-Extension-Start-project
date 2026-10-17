@@ -2,18 +2,14 @@ import * as vscode from 'vscode';
 import { CleanExplorerProvider, createTreeWatcher } from './provider';
 import { CleanExplorerDnD } from './dnd';
 import { CleanEntry } from './entry';
-import {
-  createExplorerEntry,
-  deleteExplorerEntries,
-  renameExplorerEntry,
-  relinkMovedCss,
-  resyncMovedDir
-} from './actions';
+import { relinkMovedCss, resyncMovedDir } from './actions';
 
 export interface ExplorerHandle {
   provider: CleanExplorerProvider;
   view: vscode.TreeView<CleanEntry>;
+  rootUri: vscode.Uri;
   refresh: () => void;
+  dispose: () => void;
 }
 
 export function setupExplorer(rootUri: vscode.Uri): ExplorerHandle {
@@ -37,26 +33,20 @@ export function setupExplorer(rootUri: vscode.Uri): ExplorerHandle {
   });
 
   const watcher = createTreeWatcher(() => provider.refresh());
-  const refresh = () => provider.refresh();
+  let disposed = false;
 
-  const disposables: vscode.Disposable[] = [
+  return {
+    provider,
     view,
-    watcher,
-    vscode.commands.registerCommand('tailwind-starter.refreshExplorer', refresh),
-    vscode.commands.registerCommand('tailwind-starter.newFile', (node?: CleanEntry) => {
-      void createExplorerEntry(node, false, rootUri);
-    }),
-    vscode.commands.registerCommand('tailwind-starter.newFolder', (node?: CleanEntry) => {
-      void createExplorerEntry(node, true, rootUri);
-    }),
-    vscode.commands.registerCommand('tailwind-starter.deleteEntry', (node?: CleanEntry) => {
-      const targets = view.selection && view.selection.length > 0 ? Array.from(view.selection) : node ? [node] : [];
-      void deleteExplorerEntries(targets, rootUri);
-    }),
-    vscode.commands.registerCommand('tailwind-starter.renameEntry', (node?: CleanEntry) => {
-      void renameExplorerEntry(node, rootUri);
-    })
-  ];
-
-  return { provider, view, refresh };
+    rootUri,
+    refresh: () => provider.refresh(),
+    dispose: () => {
+      if (disposed) {
+        return;
+      }
+      disposed = true;
+      watcher.dispose();
+      view.dispose();
+    }
+  };
 }

@@ -17,7 +17,7 @@ import { currentPlan } from '../tailwind/targets';
 
 type CssMode = 'global' | 'scoped' | 'none';
 
-export async function pickHtmlPage(rootUri: vscode.Uri): Promise<string | undefined> {
+export async function pickHtmlPage(_rootUri: vscode.Uri): Promise<string | undefined> {
   const files = await vscode.workspace.findFiles('**/*.html', '{**/node_modules/**,**/.git/**}');
   const rels: string[] = [];
   for (const f of files) {

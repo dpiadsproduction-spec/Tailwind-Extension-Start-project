@@ -10,6 +10,7 @@ export const LINK_ASSET_COMMAND = 'tailwind-starter.linkToPage';
 export const UNLINK_ASSET_COMMAND = 'tailwind-starter.unlinkFromPage';
 
 async function pickAssetFile(rootUri: vscode.Uri): Promise<{ rel: string; kind: 'css' | 'js' } | undefined> {
+  void rootUri;
   const files = await vscode.workspace.findFiles('**/*.{css,js}', '{**/node_modules/**,**/.git/**}');
   interface AssetPick extends vscode.QuickPickItem {
     rel: string;
