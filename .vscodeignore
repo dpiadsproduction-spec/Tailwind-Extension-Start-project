@@ -1,9 +1,16 @@
 .vscode/**
+.vscode-test/**
 src/**
+docs/**
+out/**/*.test.js
+out/**/*.test.js.map
 out/test/**
 node_modules/**
 .gitignore
+.gitattributes
 **/tsconfig.json
 **/*.map
+.monkeycode-tmp-files/**
 dist/**
 *.vsix
+package-lock.json
